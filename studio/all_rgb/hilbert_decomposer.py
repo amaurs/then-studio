@@ -25,7 +25,8 @@ class HilbertDecomposer(Decomposer):
 
 if __name__ == '__main__':
     import time
-    tic = time.perf_counter()
-    HilbertDecomposer(seed=4).create_image()
-    toc = time.perf_counter()
-    print(f"Total process time: {toc - tic:0.4f} seconds")
+    for i in range(1, 5):
+        tic = time.perf_counter()
+        HilbertDecomposer(seed=4).create_image()
+        toc = time.perf_counter()
+        print(f"Total process time: {toc - tic:0.4f} seconds")

@@ -5,23 +5,23 @@ import numpy as np
 
 size = 2 ** 24
 
-quad_size = len(np.base_repr(size - 1, base=4))
-oct_size = len(np.base_repr(size - 1, base=8))
-
-
 class QuadtreeDecomposer(Decomposer):
 
+    def __init__(self, seed: int):
+        self.seed = seed
+        self.quad_size = len(np.base_repr(2 ** (6 * self.seed) - 1, base=4))
+        self.oct_size = len(np.base_repr(2 ** (6 * self.seed) - 1, base=8))
     @property
     def name(self) -> str:
         return "quadtree"
 
     def to_space(self, i: int) -> Tuple[int, int, int]:
-        return self._oct_to_space(i=i)
+        return self._oct_to_space(i=i, oct_size=self.oct_size)
 
     def to_plane(self, i: int) -> Tuple[int, int]:
-        return self._quad_to_plane(i=i)
+        return self._quad_to_plane(i=i, quad_size=self.quad_size)
 
-    def _quad_to_plane(self, i: int) -> Tuple[int, int]:
+    def _quad_to_plane(self, i: int, quad_size: int) -> Tuple[int, int]:
         quad = np.base_repr(i, base=4).zfill(quad_size)
         x, y = 0, 0
         for i in range(len(quad)):
@@ -33,7 +33,7 @@ class QuadtreeDecomposer(Decomposer):
                 y += 2 ** (len(quad) - i - 1)
         return x, y
 
-    def _oct_to_space(self, i: int) -> Tuple[int, int, int]:
+    def _oct_to_space(self, i: int, oct_size: int) -> Tuple[int, int, int]:
         oct_ = np.base_repr(i, base=8).zfill(oct_size)
         x, y, z = 0, 0, 0
         for i in range(len(oct_)):
@@ -50,8 +50,9 @@ class QuadtreeDecomposer(Decomposer):
 
 if __name__ == '__main__':
     import time
-    tic = time.perf_counter()
-    QuadtreeDecomposer(seed=4).create_image()
-    toc = time.perf_counter()
-    print(f"Total process time: {toc - tic:0.4f} seconds")
+    for i in range(1, 5):
+        tic = time.perf_counter()
+        QuadtreeDecomposer(seed=1).create_image()
+        toc = time.perf_counter()
+        print(f"Total process time: {toc - tic:0.4f} seconds")
 

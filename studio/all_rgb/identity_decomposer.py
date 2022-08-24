@@ -13,18 +13,21 @@ class IdentityDecomposer(Decomposer):
         return "identity"
 
     def to_space(self, i: int) -> Tuple[int, int, int]:
-        blue = i & 255
-        green = (i >> 8) & 255
-        red = (i >> 16) & 255
+        # 24, 18, 12, 6
+        blue = i & (2 ** (self.seed * 2) - 1)
+        green = (i >> (self.seed * 2)) & (2 ** (self.seed * 2) - 1)
+        red = (i >> (self.seed * 2 * 2)) & (2 ** (self.seed * 2) - 1)
         return red, green, blue
     def to_plane(self, i: int) -> Tuple[int, int]:
-        x = (i >> 12) & 4095
-        y = i & 4095
+        # 12, 9, 6, 3
+        x = i & (2 ** (self.seed * 3) - 1)
+        y = (i >> (self.seed * 3)) & (2 ** (self.seed * 3) - 1)
         return x, y
 
 if __name__ == '__main__':
     import time
-    tic = time.perf_counter()
-    decomposer = IdentityDecomposer(seed=4).create_image()
-    toc = time.perf_counter()
-    print(f"Total process time: {toc - tic:0.4f} seconds")
+    for i in range(1, 5):
+        tic = time.perf_counter()
+        decomposer = IdentityDecomposer(seed=i).create_image()
+        toc = time.perf_counter()
+        print(f"Total process time: {toc - tic:0.4f} seconds")
