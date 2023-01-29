@@ -46,13 +46,3 @@ class QuadtreeDecomposer(Decomposer):
             if binary[2] == '1':
                 z += 2 ** (len(oct_) - i - 1)
         return x, y, z
-
-
-if __name__ == '__main__':
-    import time
-    for i in range(1, 5):
-        tic = time.perf_counter()
-        QuadtreeDecomposer(seed=1).create_image()
-        toc = time.perf_counter()
-        print(f"Total process time: {toc - tic:0.4f} seconds")
-

@@ -23,11 +23,3 @@ class IdentityDecomposer(Decomposer):
         x = i & (2 ** (self.seed * 3) - 1)
         y = (i >> (self.seed * 3)) & (2 ** (self.seed * 3) - 1)
         return x, y
-
-if __name__ == '__main__':
-    import time
-    for i in range(1, 5):
-        tic = time.perf_counter()
-        decomposer = IdentityDecomposer(seed=i).create_image()
-        toc = time.perf_counter()
-        print(f"Total process time: {toc - tic:0.4f} seconds")

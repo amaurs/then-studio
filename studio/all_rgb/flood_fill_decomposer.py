@@ -65,12 +65,3 @@ class FloodFillDecomposer(Decomposer):
             if i % 10000 == 0:
                 print(100.0 * len(visited) / (size ** dimension))
         return visited
-
-
-if __name__ == '__main__':
-    import time
-    for i in range(1, 5):
-        tic = time.perf_counter()
-        FloodFillDecomposer(seed=i).create_image()
-        toc = time.perf_counter()
-        print(f"Total process time: {toc - tic:0.4f} seconds")

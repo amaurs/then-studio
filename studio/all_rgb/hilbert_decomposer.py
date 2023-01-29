@@ -21,12 +21,3 @@ class HilbertDecomposer(Decomposer):
 
     def to_plane(self, i: int) -> Tuple[int, int]:
         return self.hilbert_curve_plane.point_from_distance(distance=i)
-
-
-if __name__ == '__main__':
-    import time
-    for i in range(1, 5):
-        tic = time.perf_counter()
-        HilbertDecomposer(seed=4).create_image()
-        toc = time.perf_counter()
-        print(f"Total process time: {toc - tic:0.4f} seconds")
