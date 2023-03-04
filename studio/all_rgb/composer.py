@@ -8,10 +8,7 @@ from studio.all_rgb import Decomposer
 import imageio
 import numpy as np
 
-from studio.all_rgb.flood_fill_decomposer import FloodFillDecomposer
-from studio.all_rgb.hilbert_decomposer import HilbertDecomposer
-from studio.all_rgb.identity_decomposer import IdentityDecomposer
-from studio.all_rgb.quadtree_decomposer import QuadtreeDecomposer
+from studio.all_rgb.hamiltonian_decomposer import HamiltonianDecomposer
 
 
 class Composer:
@@ -79,7 +76,8 @@ if __name__ == '__main__':
     import time
     for i in range(1, 5):
         tic = time.perf_counter()
-        Composer(space=QuadtreeDecomposer(seed=i),
-                 plane=IdentityDecomposer(seed=i)).create_image()
+        decomposer = HamiltonianDecomposer(seed=i, weight_randomness=729)
+        Composer(space=decomposer,
+                 plane=decomposer).create_image(directory='output')
         toc = time.perf_counter()
         print(f"Total process time: {toc - tic:0.4f} seconds")
